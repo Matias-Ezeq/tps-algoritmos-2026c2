@@ -12,7 +12,7 @@ int main() {
     cin >> numero;
 
     for(int i = numero;i<numero + 20;i++){
-        cout << i << "\n";
+        cout << i << endl;
     }
 
     return 0;

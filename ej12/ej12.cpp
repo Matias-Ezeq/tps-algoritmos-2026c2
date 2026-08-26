@@ -22,8 +22,8 @@ int main() {
     horas = horas % 24;
 
 
-    printf("%i:%i:%i:%i ",dias,horas,minutos,segundos);
-    printf("(%i dias, %i horas, %i minutos, y %i segundos)\n",dias,horas,minutos,segundos);
+    printf("%d:%d:%d:%d ",dias,horas,minutos,segundos);
+    printf("(%d dias, %d horas, %d minutos, y %d segundos)\n",dias,horas,minutos,segundos);
 
     return 0;
 }

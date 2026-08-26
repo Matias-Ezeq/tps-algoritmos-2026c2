@@ -14,7 +14,7 @@ int main() {
         resultado = resultado * i;
     }
 
-    printf("%d! = %d",numero,resultado);
+    printf("%d! = %d\n",numero,resultado);
 
     return 0;
 }
