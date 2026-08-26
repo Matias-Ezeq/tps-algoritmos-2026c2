@@ -15,6 +15,9 @@ int main()
         volumen = (4/3)*pi*r³
         superficie = 4*pi*r²
     */
-    printf("Volumen: %g cm³\nSuperficie: %gcm²\n",(4.0/3)*M_PI*pow(radio,3),4*M_PI*pow(radio,2));
+    double volumen = (4.0/3)*M_PI*pow(radio,3);
+    double superficie = 4*M_PI*pow(radio,2);
+
+    printf("Volumen: %g cm³\nSuperficie: %gcm²\n",volumen,superficie);
     return 0;
 }

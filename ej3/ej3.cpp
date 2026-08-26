@@ -10,6 +10,6 @@ int main()
     string nombre = "";
     cout << "Ingrese su nombre: ";
     getline(cin, nombre);
-    cout << "Hola " << nombre << "!\n";
+    cout << "Hola " << nombre << "!" << endl;
     return 0;
 }

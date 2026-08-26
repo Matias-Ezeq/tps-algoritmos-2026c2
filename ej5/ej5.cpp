@@ -14,7 +14,10 @@ int main()
     cout << "Ingrese la altura del rectángulo (centímetros): ";
     cin >> altura;
 
-    printf("Perímetro: %d\nSuperficie: %d\n",base*2+altura*2,base*altura);
+    int perimetro = base*2 + altura*2;
+    int superficie = base*altura;
+
+    printf("Perímetro: %d\nSuperficie: %d\n",perimetro,superficie);
 
     return 0;
 }

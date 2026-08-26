@@ -12,10 +12,10 @@ int main(){
     cin >> numero1 >> numero2;
 
     if (numero1 >= numero2){
-        cout << numero1 << "\n";
+        cout << numero1 << endl;
     }
     else {
-        cout << numero2 << "\n";
+        cout << numero2 << endl;
     }
 
 

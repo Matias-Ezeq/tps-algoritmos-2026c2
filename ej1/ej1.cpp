@@ -9,6 +9,6 @@ int main()
 {
     int numero = 0;
     cin >> numero;
-    cout << "Numero ingresado = " << numero << "\n";
+    cout << "Numero ingresado = " << numero << endl;
     return 0;
 }

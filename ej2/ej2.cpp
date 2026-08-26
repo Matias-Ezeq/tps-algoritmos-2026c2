@@ -20,6 +20,10 @@ int main()
     cout << "Ingrese el segundo número: ";
     cin >> numero2;
 
-    printf("Suma = %d \nResta = %d \nMultiplicación = %d\nDivisión = %g\n",numero1 + numero2,numero1 - numero2,numero1*numero2,float(numero1)/numero2);
+    cout    << "Suma = " << numero1 + numero2 << endl
+            << "Resta = " << numero1 - numero2 << endl
+            << "Multiplicación = " << numero1*numero2 << endl
+            << "División = " << float(numero1)/numero2 << endl;
+            
     return 0;
 }
