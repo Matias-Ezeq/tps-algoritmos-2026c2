@@ -8,7 +8,41 @@ using namespace std;
 
 int main() {
     
-    //código
+    int valor,ciclo,mayor,menor,posMayor,posMenor = 0;
+    char seguir = 's';
+
+        do {
+            cout << "Ingrese un número: ";
+            cin >> valor;
+
+            switch (ciclo){
+                case 0:
+                    menor = valor;
+                    mayor = valor;
+                    posMenor = ciclo;
+                    posMayor = ciclo;
+                    break;
+                default:
+                    if(valor < menor){
+                        menor = valor;
+                        posMenor = ciclo;
+                    }
+                    if(valor>mayor){
+                        mayor=valor;
+                        posMayor=ciclo;
+                    }
+                    break;
+            }
+            ciclo ++;
+
+            cout    << "Mayor: " << mayor << ", posición: " << posMayor <<endl
+                    << "Menor: " << menor << ", posición: " << posMenor <<endl;
+
+            cout << "continuar? (s/n)" << endl;
+            cin >> seguir;
+
+        }
+        while (seguir != 'n' && seguir != 'N');
 
     return 0;
 }
