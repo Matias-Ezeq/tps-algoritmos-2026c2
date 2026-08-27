@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     
-    int valor,ciclo,mayor,menor,posMayor,posMenor = 0;
+    int valor=0,ciclo=0,mayor=0,menor=0,posMayor=0,posMenor = 0;
     char seguir = 's';
 
         do {

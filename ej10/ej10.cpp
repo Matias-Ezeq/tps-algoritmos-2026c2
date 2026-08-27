@@ -11,7 +11,7 @@ using namespace std;
 */
 
 int main(){
-    float numero1,numero2 = 0;
+    float numero1 = 0,numero2 = 0;
     char operando = ' ';
     float resultado = 0;
 

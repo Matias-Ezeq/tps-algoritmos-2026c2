@@ -6,7 +6,7 @@ using namespace std;
 */
 
 int main(){
-    int numero1,numero2 = 0;
+    int numero1 = 0,numero2 = 0;
     string resultado = "";
 
     cout << "ingrese dos números separados por un espacio: ";

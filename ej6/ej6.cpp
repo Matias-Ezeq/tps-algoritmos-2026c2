@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     double numero = 0;
-    string resultado = "el if no funca";
+    string resultado = "";
 
     cout << "Ingrese un número real: ";
     cin >> numero;

@@ -8,8 +8,7 @@ using namespace std;
 
 int main() {
 
-    float in = 1;
-    float suma = 0;
+    float in = 1, suma = 0;
 
     while (in != 0) {
         cout << "Ingrese número real: ";

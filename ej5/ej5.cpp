@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    int base, altura = 0;
+    int base = 0, altura = 0;
 
     cout << "Ingrese la base del rectángulo (centímetros): ";
     cin >> base;

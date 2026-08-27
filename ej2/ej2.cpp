@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     //inicialización de variables
-    int numero1, numero2 = 0;
+    int numero1 = 0, numero2 = 0;
 
     cout << "Ingrese el primer número: ";
     cin >> numero1;

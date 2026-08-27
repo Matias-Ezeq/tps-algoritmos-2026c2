@@ -6,7 +6,7 @@ using namespace std;
 */
 
 int main() {
-    int dias,horas,minutos,segundos = 0;
+    int dias = 0,horas = 0,minutos = 0,segundos = 0;
 
     cout << "Ingrese número de segundos: ";
     cin >> segundos;

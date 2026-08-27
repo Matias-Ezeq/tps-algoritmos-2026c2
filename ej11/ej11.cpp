@@ -8,28 +8,38 @@ using namespace std;
 int main() {
     char opcion = ' ';
     string texto = "";
-    cout << "1 - No hacer nada\n2 - Tampoco hacer nada\3 - Hacer algo (nada)\n4 - Terminar ejecución\nElija una opción (1,2,3,4): ";
-    cin >> opcion;
+    bool salir = false;
+    
+    do {
+        cout    << "1 - No hacer nada" <<  endl
+                << "2 - Tampoco hacer nada" << endl
+                << "3 - Hacer algo (nada)" << endl
+                << "4 - Terminar ejecución" << endl
+                << "Elija una opción (1,2,3,4): ";
+        cin >> opcion;
 
-    switch (opcion) {
-        case '1':
-            texto = "No hacer nada";
-            break;
-        case '2':
-            texto = "Tampoco hacer nada";
-            break;
-        case '3':
-            texto = "Hacer algo (nada)";
-            break;
-        case '4':
-            texto = "Terminar ejecución";
-            break;
-        default:
-            cout << "Opción inválida.\n";
-            return 1;
+        switch (opcion) {
+            case '1':
+                texto = "No hacer nada";
+                break;
+            case '2':
+                texto = "Tampoco hacer nada";
+                break;
+            case '3':
+                texto = "Hacer algo (nada)";
+                break;
+            case '4':
+                texto = "Terminar ejecución";
+                salir = true;
+                break;
+            default:
+                cout << "Opción inválida.\n";
+                return 1;
+        }
+
+        printf("Usted eligió la opción %c : \"%s\".\n",opcion,texto.c_str());
     }
-
-    printf("Usted eligió la opción %c : \"%s\".\n",opcion,texto.c_str());
+    while (!salir);
 
     return 0;
 }
