@@ -6,33 +6,6 @@ using namespace std;
     Escribir un algoritmo que haga una tabla de valores Celsius-Fahrenheit, para valores entre OºF y 200ºF, a intervalos de 10º.
 */
 
-/*
-    ╔═══════════╤═══════════╗
-    ║  Celcius  │ Farenheit ║
-    ╟───────────┼───────────╢
-    ║     0°C   │    32°F   ║
-    ║           │           ║
-    ║           │           ║
-    ║           │           ║
-    ║           │           ║
-    ║           │           ║
-    ║           │           ║
-    ╚═══════════╧═══════════╝
-*/
-
-string espacios(float numero) {
-    int cantidadEspacios = 0;
-    string salida = "", num = to_string(numero);
-
-    cantidadEspacios = 13 - num.length();
-
-    for (int i=0; i < cantidadEspacios/2; i++){
-        salida += " ";
-    }
-
-    return salida;
-}
-
 int main() {
     float celsius = 0;
     
