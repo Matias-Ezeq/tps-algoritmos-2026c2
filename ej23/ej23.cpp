@@ -32,6 +32,7 @@ int main() {
     int mediaLotes[lotes] = { };
 
     for (int i = 0; i < lotes; i++) {
+        numero = 1;
         iteracionActual = 0;
         while (numero != 0) {
             cout << "Ingrese un número (lote " << i+1 << "/" << lotes << "): ";
