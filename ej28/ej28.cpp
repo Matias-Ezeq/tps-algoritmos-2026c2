@@ -32,17 +32,37 @@ int mcd(int numero1, int numero2){
 }
 
 int mcm(int numero1, int numero2){
-    int mcd = 1;
+    int resultado;
+    
+    //https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
+
+    //caso borde (división por 0)
+    if (numero1 == 0 && numero2 == 0) {
+        return 0;
+    }
+
+    //caso borde (mcm de dos negativos es igual al mcm de su valor absoluto)
+    if (numero1 < 0 && numero2 < 0){
+        numero1 = abs(numero1);
+        numero2 = abs(numero2);
+    }
+
+    if (numero1 < numero2) {
+        resultado = numero1 * (abs(numero2)/mcd(numero1,numero2));
+    }
+    else {
+        resultado = numero2 * (abs(numero1)/mcd(numero1,numero2));
+    }
 
     
-    return mcd;
+    return resultado;
 }
 
 int main() {
     int a,b;
     cout << "enter two integers: ";
     cin >> a >> b;
-    cout << "mcd of " << a << " and  " << b << ": " << mcd(a,b);
+    cout << "mcm of " << a << " and  " << b << ": " << mcm(a,b) << endl;
 
     return 0;
 }
