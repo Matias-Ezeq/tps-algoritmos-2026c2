@@ -33,7 +33,7 @@ int mcd(int numero1, int numero2){
 
 int mcm(int numero1, int numero2){
     int resultado;
-    
+
     //https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
 
     //caso borde (división por 0)
@@ -41,17 +41,11 @@ int mcm(int numero1, int numero2){
         return 0;
     }
 
-    //caso borde (mcm de dos negativos es igual al mcm de su valor absoluto)
-    if (numero1 < 0 && numero2 < 0){
-        numero1 = abs(numero1);
-        numero2 = abs(numero2);
-    }
-
     if (numero1 < numero2) {
-        resultado = numero1 * (abs(numero2)/mcd(numero1,numero2));
+        resultado = abs(numero1) * (abs(numero2)/mcd(numero1,numero2));
     }
     else {
-        resultado = numero2 * (abs(numero1)/mcd(numero1,numero2));
+        resultado = abs(numero2) * (abs(numero1)/mcd(numero1,numero2));
     }
 
     
