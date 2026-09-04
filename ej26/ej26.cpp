@@ -3,36 +3,13 @@
 using namespace std;
 
 /*
-    25) Hacer una función que devuelva las raíces reales de un polinomio de segundo grado y además indique si tiene o no raíces reales.
-    Nota: utilizar la función realizada en el ejercicio 39. Si no tuviera raíces reales, devolverá 0 en ambas
+    26) Hacer un programa principal en donde se pida al usuario ingresar los coeficientes de la cuadrática, e indicar si tiene o no raíces, y cuáles son en caso de tener, utilizando la función definida.
 */
 
-bool tieneRaices(float coeficiente1,float coeficiente2,float coeficiente3);
-float calcularRaiz1(float a, float b, float c);
-float calcularRaiz2(float a, float b, float c);
-
-int main() {
-
-    float a = 0,b = 0,c = 0;
-
-    cout << "Ingrese los coeficientes de su polinomio: ";
-    cin >> a >> b >> c;
-
-    float raiz1 = calcularRaiz1(a,b,c), raiz2 = calcularRaiz2(a,b,c);
-
-    if (tieneRaices(a,b,c)){
-        //pueden ser ambas reales, o solo una, por eso verifico ambas igual. Si verifico solo la primera y es real, tengo que verificar la segunda también en caso de que no lo sea.
-        cout    << "El polinomio tiene las siguientes raices: " << endl
-                << "Raiz 1: " << ((isfinite(raiz1)) ? raiz1 : 0 ) << endl
-                << "Raiz 2: " << ((isfinite(raiz2) && raiz2 != raiz1) ? raiz2 : 0 ) << endl;
-    }
-    else {
-        cout << "el polinomio no tiene raices reales" << endl;
-    }
-
-    return 0;
-}
-
+struct raices{
+    float raiz1;
+    float raiz2;
+};
 float calcularRaiz1(float a, float b, float c) {
     float raiz = 0;
 
@@ -49,13 +26,39 @@ float calcularRaiz2(float a, float b, float c) {
     return (raiz);
 }
 
-bool tieneRaices(float a, float b, float c) {
-    float raiz1 = 0, raiz2 = 0;
+raices calcularRaices(float a, float b, float c){
+    raices raices;
+    raices.raiz1 = calcularRaiz1(a,b,c);
+    raices.raiz2 = calcularRaiz2(a,b,c);
 
-    // -b +/- raiz cuadrada(b^2 - 4*a*c) / 2*a
+    if (!isfinite(raices.raiz1)){
+        raices.raiz1 = 0;
+    }
+    if (!isfinite(raices.raiz2)){
+        raices.raiz2 = 0;
+    }
 
-    raiz1 = calcularRaiz1(a,b,c);
-    raiz2 = calcularRaiz2(a,b,c);
+    return raices;
+}
 
-    return (isfinite(raiz1) || isfinite(raiz2));
+int main() {
+
+    float a = 0,b = 0,c = 0;
+    raices raices;
+
+    cout << "Ingrese los coeficientes de su polinomio: ";
+    cin >> a >> b >> c;
+
+    raices = calcularRaices(a,b,c);
+
+    if (raices.raiz1 == 0 && raices.raiz2 == 0){
+        cout << "el polinomio no tiene raices" << endl;
+    }
+    else {
+        cout << "el polinomio tiene las siguientes raices: " << endl
+            << "raiz 1: " << raices.raiz1 << endl
+            << "raiz 2: " << raices.raiz2 << endl;
+    }
+
+    return 0;
 }
