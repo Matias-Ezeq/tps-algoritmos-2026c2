@@ -12,7 +12,7 @@ float calcularTraza(int** matriz) {
     for (int i = 0; i < largo; i++){
         traza += matriz[i][i];
     }
-
+ 
     return traza;
 }
 
