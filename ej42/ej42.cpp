@@ -119,6 +119,7 @@ int cantidadDeProductosEnOferta(vector<producto> gondola,int largoGondola){
     return cantidad;
 }
 
+
 void imprimirMenu(){
     //Reponé La Góndola Carajo <- (cambiar por otro mas apropiado despues)
     cout << "BIENVENIDO/A AL SISTEMA DE STOCK ELECTRÓNICO R.L.G.C." << endl
@@ -193,10 +194,9 @@ void agregarProducto_tui(vector<producto>* gondola){
 
 }
 
-int buscarProducto_tui(vector<producto>* gondola){
+producto* buscarProducto_tui(vector<producto>* gondola){
     string busqueda = "";
     producto resultado;
-    float precio = 0;
     cout << "Ingrese el nombre o código del producto: ";
     getline(cin,busqueda);
 
@@ -204,21 +204,31 @@ int buscarProducto_tui(vector<producto>* gondola){
         try{
             resultado = *buscarProducto(*gondola,stol(busqueda));
         }
-        catch(...){
-        cout << "producto no encontrado";
-        return 1;
+        catch(string error){
+        cout << error;
         }
     }
     else {
         try{
             resultado = *buscarProducto(*gondola,busqueda);
         }
-        catch(...){
-        cout << "producto no encontrado";
-        return 1;
+        catch(string error){
+        cout << error;
         }
     }
+}
+
+int mostrarProducto_tui(vector<producto>* gondola){
+    float precio = 0;
+    producto resultado;
     
+    try{
+        resultado = *buscarProducto_tui(gondola);
+    }
+    catch(...){
+        return 1;
+    }
+
     if (resultado.oferta){
         precio = resultado.precio - (resultado.precio / 10);
     }
@@ -229,6 +239,40 @@ int buscarProducto_tui(vector<producto>* gondola){
     cout << "Nombre: "              << resultado.nombre << endl
          << "Precio: "              << precio           << endl
          << "Codigo de barras: "    << resultado.codigo << endl;
+
+    return 0;
+}
+
+int modificarPrecio_tui(vector<producto>* gondola){
+    producto* resultado;
+    try{
+        resultado = buscarProducto_tui(gondola);
+    }
+    catch(...){
+        return 1;
+    }
+
+    cout << "Ingrese el nuevo precio: ";
+    cin >> resultado -> precio;
+
+    cout << "precio actualizado exitosamente" << endl;
+
+    return 0;
+}
+
+int eliminarProducto_tui(vector<producto>* gondola){
+    producto resultado;
+    try{
+        resultado = *buscarProducto_tui(gondola);
+    }
+    catch(...){
+        return 1;
+    }
+
+    quitarProducto(gondola, resultado.codigo); //modificar esta función para agregar las comprobaciones correspondientes
+
+    cout << "Producto eliminado con éxito"<<endl;
+
 
     return 0;
 }
@@ -250,11 +294,13 @@ int main() {
                 agregarProducto_tui(&gondola);
                 break;
             case 'b':
-                buscarProducto_tui(&gondola);
+                mostrarProducto_tui(&gondola);
                 break;
             case 'c':
+                modificarPrecio_tui(&gondola);
                 break;
             case 'd':
+                eliminarProducto_tui(&gondola);
                 break;
             case 'e':
                 break;
