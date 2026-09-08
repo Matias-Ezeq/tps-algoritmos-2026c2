@@ -20,14 +20,16 @@ struct producto{
     bool oferta;
 };
 
+
+//sobrecarca de buscarProducto para que tome tanto el código de barras como el nombre de producto como parametro de busqueda
 producto* buscarProducto(vector<producto> gondola,long codigo){
     bool encontrado = false;
     producto* resultado;
 
     for (int i = 0; !encontrado && i < gondola.size(); i++){
-        encontrado = gondola[i].codigo == codigo;
+        encontrado = gondola.at(i).codigo == codigo;
         if (encontrado) {
-            resultado = &gondola[i];
+            resultado = &gondola.at(i);
         }
     }
     if (!encontrado){
@@ -44,7 +46,7 @@ producto* buscarProducto(vector<producto> gondola,string nombre){
     for (int i = 0; !encontrado && i < gondola.size(); i++){
         encontrado = gondola[i].nombre == nombre;
         if (encontrado) {
-            resultado = &gondola[i];
+            resultado = &gondola.at(i);
         }
     }
     if (!encontrado){
@@ -59,7 +61,7 @@ int buscarIndiceProducto(vector<producto> gondola,long codigo){
     int resultado = 0;
 
     for (int i = 0; !encontrado && i < gondola.size(); i++){
-        encontrado = gondola[i].codigo == codigo;
+        encontrado = gondola.at(i).codigo == codigo;
         if (encontrado) {
             resultado = i;
         }
@@ -85,9 +87,9 @@ void modificarPrecioDelProducto(producto* productoAModificar, float nuevoPrecio)
 }
 
 
-//???
-void quitarProducto(vector<producto> gondola, producto productoAQuitar){
-    int indice = buscarIndiceProducto(productoAQuitar.codigo); // <- ?????????????
+
+void quitarProducto(vector<producto> gondola, long codigoProductoAQuitar){
+    int indice = buscarIndiceProducto(gondola, codigoProductoAQuitar);
     gondola.erase(gondola.begin() + indice);
 }
 
@@ -103,13 +105,69 @@ int cantidadDeProductosEnOferta(vector<producto> gondola,int largoGondola){
     return cantidad;
 }
 
+void imprimirMenu(){
+    //Reponé La Góndola Carajo <- (cambiar por otro mas apropiado despues)
+    cout << "BIENVENIDO/A AL SISTEMA DE STOCK ELECTRÓNICO R.L.G.C." << endl
+         << "-----------------------------------------------------" << endl
+         << "¿qué operación desea realizar?"                        << endl
+         << "-----------------------------------------------------" << endl
+         << "a - Agregar un producto nuevo a la góndola"            << endl
+         << "b - Buscar un producto por su nombre"                  << endl
+         << "c - Buscar un producto por su código de barrras"       << endl
+         << "d - Modificar precio de un producto"                   << endl
+         << "e - Quitar un producto de la góndola"                  << endl
+         << "f - Ver la cantidad de productos en oferta"            << endl
+         << "g - Agregar un producto al carrito"                    << endl
+         << "h - Salir"                                             << endl
+         << "-----------------------------------------------------" << endl
+         << "Opción elegida: "                                      << endl;
+}
+
+void limpiarPantalla(){
+    cout << "\033[H\033[2J" << flush;
+}
+
+void agregarProducto_tui(vector<producto>* gondola);
+
 int main() {
-    const int largo = 50;
-    producto gondola[largo] = {nullptr};
 
+    vector<producto> gondola = {};
+    vector<producto> carrito = {};
+    char opcion = ' ';
+    bool salir = false;
     
+    limpiarPantalla();
+    do {
+        imprimirMenu();
+        cin >> opcion;
 
-    //código
+        switch (opcion) {
+            case 'a':
+                agregarProducto_tui(&gondola);
+                break;
+            case 'b':
+                break;
+            case 'c':
+                break;
+            case 'd':
+                break;
+            case 'e':
+                break;
+            case 'f':
+                break;
+            case 'g':
+                break;
+            case 'h':
+                cout << "Gracias! Vuelva pronto!" << endl;
+                salir = true;
+                break;
+            default:
+                limpiarPantalla();
+                cout << "Opción Inválida" << endl;
+                break;
+        }
+    }
+    while(!salir);
 
     return 0;
 }
