@@ -73,12 +73,12 @@ int buscarIndiceProducto(vector<producto> gondola,long codigo){
     return resultado;
 }
 
-void cargarProducto(vector<producto> gondola,producto productoACargar){
+void cargarProducto(vector<producto>* gondola,producto productoACargar){
     try {
-        buscarProducto(gondola, productoACargar.codigo);
+        buscarProducto(*gondola, productoACargar.codigo);
     }
     catch (...){
-        gondola.push_back(productoACargar);
+        gondola->push_back(productoACargar);
     }
 }
 
@@ -88,9 +88,9 @@ void modificarPrecioDelProducto(producto* productoAModificar, float nuevoPrecio)
 
 
 
-void quitarProducto(vector<producto> gondola, long codigoProductoAQuitar){
-    int indice = buscarIndiceProducto(gondola, codigoProductoAQuitar);
-    gondola.erase(gondola.begin() + indice);
+void quitarProducto(vector<producto>* gondola, long codigoProductoAQuitar){
+    int indice = buscarIndiceProducto(*gondola, codigoProductoAQuitar);
+    gondola->erase(gondola->begin() + indice);
 }
 
 int cantidadDeProductosEnOferta(vector<producto> gondola,int largoGondola){
@@ -127,7 +127,58 @@ void limpiarPantalla(){
     cout << "\033[H\033[2J" << flush;
 }
 
-void agregarProducto_tui(vector<producto>* gondola);
+void agregarProducto_tui(vector<producto>* gondola){
+    producto nuevoProducto;
+    char seleccion = 'N';
+    bool existe = false;
+    string nombreNuevoProducto = "";
+    long codigoNuevoProducto = 0;
+
+    cout << "Ingrese nombre del producto (ej: fideos marolio): ";
+    getline(cin,nombreNuevoProducto); 
+    try {
+            buscarProducto(*gondola, nombreNuevoProducto); //si tira excepcion ta bien porque no existe y se saltea todo el resto
+            existe = true;
+            limpiarPantalla();
+            cout << "error: ya existe un producto con ese nombre" << endl;
+        }
+        catch(...) {
+            nuevoProducto.nombre = nombreNuevoProducto;
+        }
+    limpiarPantalla();
+    cout << "Ingrese precio del producto (ej: 1599.99): ";
+    cin >> nuevoProducto.precio; 
+    limpiarPantalla();
+    do{
+        cout << "Ingrese código del producto (ej: 73452): ";
+        cin >> codigoNuevoProducto;
+        try {
+            buscarProducto(*gondola, codigoNuevoProducto); //si tira excepcion ta bien porque no existe y se saltea todo el resto
+            existe = true;
+            limpiarPantalla();
+            cout << "error: ya existe un producto con ese código." << endl;
+        }
+        catch(...) {
+            nuevoProducto.codigo = codigoNuevoProducto;
+        }
+    }
+    while (existe);
+    limpiarPantalla();
+    cout << "¿poner el producto en oferta? (s/N): ";
+    cin >> seleccion;
+    nuevoProducto.oferta = (seleccion == 'S' || seleccion == 's');
+
+    cargarProducto(gondola, nuevoProducto);
+
+    try {
+        buscarProducto(*gondola,nuevoProducto.codigo);
+        cout << "Producto agregado con éxito" << endl;
+    }
+    catch (...){
+        cout << "Error: Hubo un error al agregar el producto" << endl;
+    }
+
+}
 
 int main() {
 
