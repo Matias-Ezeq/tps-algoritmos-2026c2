@@ -107,7 +107,7 @@ void quitarProducto(vector<producto>* gondola, long codigoProductoAQuitar){
     gondola->erase(gondola->begin() + indice);
 }
 
-int cantidadDeProductosEnOferta(vector<producto> gondola,int largoGondola){
+int cantidadDeProductosEnOferta(vector<producto> gondola){
     int cantidad = 0;
 
     for(producto producto : gondola){
@@ -220,6 +220,7 @@ producto* buscarProducto_tui(vector<producto>* gondola){
 
 int mostrarProducto_tui(vector<producto>* gondola){
     float precio = 0;
+    string oferta = "";
     producto resultado;
     
     try{
@@ -231,13 +232,14 @@ int mostrarProducto_tui(vector<producto>* gondola){
 
     if (resultado.oferta){
         precio = resultado.precio - (resultado.precio / 10);
+        oferta = "(OFERTA! 10% OFF)";
     }
     else {
         precio = resultado.precio;
     }
 
     cout << "Nombre: "              << resultado.nombre << endl
-         << "Precio: "              << precio           << endl
+         << "Precio: "              << precio           << oferta << endl
          << "Codigo de barras: "    << resultado.codigo << endl;
 
     return 0;
@@ -277,6 +279,10 @@ int eliminarProducto_tui(vector<producto>* gondola){
     return 0;
 }
 
+void contarOfertas_tui(vector<producto> gondola) {
+    cout << "actualmente hay " << cantidadDeProductosEnOferta(gondola) << " productos en oferta" << endl;
+}
+
 int main() {
 
     vector<producto> gondola = {};
@@ -303,6 +309,7 @@ int main() {
                 eliminarProducto_tui(&gondola);
                 break;
             case 'e':
+                contarOfertas_tui(gondola);
                 break;
             case 'f':
                 break;
