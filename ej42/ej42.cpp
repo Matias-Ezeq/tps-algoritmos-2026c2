@@ -13,6 +13,20 @@ using namespace std;
         f. Indicar la cantidad de productos en oferta.
         g. Cargar productos de Gondola en un nuevo vector Chango, indicando luego: monto a abonar y ahorro total teniendo en cuenta los productos en oferta.
 */
+
+
+// Source - https://stackoverflow.com/a/4654718
+// Posted by Charles Salvia, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-09-08, License - CC BY-SA 4.0
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
+
+
 struct producto{
     string nombre;
     long codigo;
@@ -112,13 +126,12 @@ void imprimirMenu(){
          << "¿qué operación desea realizar?"                        << endl
          << "-----------------------------------------------------" << endl
          << "a - Agregar un producto nuevo a la góndola"            << endl
-         << "b - Buscar un producto por su nombre"                  << endl
-         << "c - Buscar un producto por su código de barrras"       << endl
-         << "d - Modificar precio de un producto"                   << endl
-         << "e - Quitar un producto de la góndola"                  << endl
-         << "f - Ver la cantidad de productos en oferta"            << endl
-         << "g - Agregar un producto al carrito"                    << endl
-         << "h - Salir"                                             << endl
+         << "b - Buscar un producto"                                << endl
+         << "c - Modificar precio de un producto"                   << endl
+         << "d - Quitar un producto de la góndola"                  << endl
+         << "e - Ver la cantidad de productos en oferta"            << endl
+         << "f - Agregar un producto al carrito"                    << endl
+         << "g - Salir"                                             << endl
          << "-----------------------------------------------------" << endl
          << "Opción elegida: "                                      << endl;
 }
@@ -180,6 +193,46 @@ void agregarProducto_tui(vector<producto>* gondola){
 
 }
 
+int buscarProducto_tui(vector<producto>* gondola){
+    string busqueda = "";
+    producto resultado;
+    float precio = 0;
+    cout << "Ingrese el nombre o código del producto: ";
+    getline(cin,busqueda);
+
+    if(is_number(busqueda)){
+        try{
+            resultado = *buscarProducto(*gondola,stol(busqueda));
+        }
+        catch(...){
+        cout << "producto no encontrado";
+        return 1;
+        }
+    }
+    else {
+        try{
+            resultado = *buscarProducto(*gondola,busqueda);
+        }
+        catch(...){
+        cout << "producto no encontrado";
+        return 1;
+        }
+    }
+    
+    if (resultado.oferta){
+        precio = resultado.precio - (resultado.precio / 10);
+    }
+    else {
+        precio = resultado.precio;
+    }
+
+    cout << "Nombre: "              << resultado.nombre << endl
+         << "Precio: "              << precio           << endl
+         << "Codigo de barras: "    << resultado.codigo << endl;
+
+    return 0;
+}
+
 int main() {
 
     vector<producto> gondola = {};
@@ -197,6 +250,7 @@ int main() {
                 agregarProducto_tui(&gondola);
                 break;
             case 'b':
+                buscarProducto_tui(&gondola);
                 break;
             case 'c':
                 break;
@@ -207,8 +261,6 @@ int main() {
             case 'f':
                 break;
             case 'g':
-                break;
-            case 'h':
                 cout << "Gracias! Vuelva pronto!" << endl;
                 salir = true;
                 break;
