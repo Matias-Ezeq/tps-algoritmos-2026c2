@@ -16,19 +16,6 @@ using namespace std;
             g. Cargar productos de Gondola en un nuevo vector Chango, indicando luego: monto a abonar y ahorro total teniendo en cuenta los productos en oferta.
 */
 
-
-// Source - https://stackoverflow.com/a/4654718
-// Posted by Charles Salvia, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-09-08, License - CC BY-SA 4.0
-bool is_number(const std::string& s)
-{
-    std::string::const_iterator it = s.begin();
-    while (it != s.end() && std::isdigit(*it)) ++it;
-    return !s.empty() && it == s.end();
-}
-
-
-
 struct producto{
     string nombre;
     long codigo;
@@ -146,6 +133,7 @@ float calcularAhorro(vector<producto> carrito){
     return ahorro;
 }
 
+
 //funciones de utilidad
 
 void imprimirMenu(){
@@ -168,7 +156,6 @@ void imprimirMenu(){
 // Source - https://stackoverflow.com/a/52895729
 // Posted by Joma, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-09-09, License - CC BY-SA 4.0
-
 void limpiarPantalla()
 {
 #if defined _WIN32
@@ -182,6 +169,15 @@ void limpiarPantalla()
 #endif
 }
 
+// Source - https://stackoverflow.com/a/4654718
+// Posted by Charles Salvia, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-09-08, License - CC BY-SA 4.0
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
 
 float redondearA2Decimales(float numero){
     return float(round(numero*100)/100);
