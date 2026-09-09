@@ -1,17 +1,19 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 /*
-    42) Definir un vector Gondola en donde puedan almacenar datos de a lo sumo 50 productos del supermercado. Cada producto se define por su nombre, código de barras, precio y un indicador si está en oferta o no (si estuviera en oferta al precio se le debe descontar un 10%).
-    La aplicación debe permitir mediante un menú de opciones:
-        a. Cargar productos en el vector.
-        b. Buscar un producto indicando su nombre.
-        c. Buscar un producto por código de barra.
-        d. Poder modificar el precio de algún producto.
-        e. Quitar un producto que esté en el vector.
-        f. Indicar la cantidad de productos en oferta.
-        g. Cargar productos de Gondola en un nuevo vector Chango, indicando luego: monto a abonar y ahorro total teniendo en cuenta los productos en oferta.
+    42) Definir un vector Gondola en donde puedan almacenar datos de a lo sumo 50 productos del supermercado.
+        Cada producto se define por su nombre, código de barras, precio y un indicador si está en oferta o no (si estuviera en oferta al precio se le debe descontar un 10%).
+        La aplicación debe permitir mediante un menú de opciones:
+            a. Cargar productos en el vector.
+            b. Buscar un producto indicando su nombre.
+            c. Buscar un producto por código de barra.
+            d. Poder modificar el precio de algún producto.
+            e. Quitar un producto que esté en el vector.
+            f. Indicar la cantidad de productos en oferta.
+            g. Cargar productos de Gondola en un nuevo vector Chango, indicando luego: monto a abonar y ahorro total teniendo en cuenta los productos en oferta.
 */
 
 
@@ -34,6 +36,7 @@ struct producto{
     bool oferta;
 };
 
+//funciones "internas" (modifican los vectores)
 
 //sobrecarca de buscarProducto para que tome tanto el código de barras como el nombre de producto como parametro de busqueda
 producto* buscarProducto(vector<producto> gondola,long codigo){
@@ -100,8 +103,6 @@ void modificarPrecioDelProducto(producto* productoAModificar, float nuevoPrecio)
     productoAModificar -> precio =  nuevoPrecio;
 }
 
-
-
 void quitarProducto(vector<producto>* gondola, long codigoProductoAQuitar){
     int indice = buscarIndiceProducto(*gondola, codigoProductoAQuitar);
     gondola->erase(gondola->begin() + indice);
@@ -119,6 +120,33 @@ int cantidadDeProductosEnOferta(vector<producto> gondola){
     return cantidad;
 }
 
+void agregarProductoAlCarrito(vector<producto>* carrito,producto productoACargar){
+    carrito -> push_back(productoACargar);
+}
+
+float calcularTotalCarrito(vector<producto> carrito){
+    float total = 0;
+
+    for (producto producto : carrito) {
+        total += producto.precio; 
+    }
+
+    return total;
+}
+
+float calcularAhorro(vector<producto> carrito, float totalConDescuento){
+    float ahorro = 0;
+
+    for (producto producto : carrito){
+        if (producto.oferta){
+            ahorro = producto.precio / 10;
+        }
+    }
+
+    return ahorro;
+}
+
+//funciones de utilidad
 
 void imprimirMenu(){
     //Reponé La Góndola Carajo <- (cambiar por otro mas apropiado despues)
@@ -131,7 +159,7 @@ void imprimirMenu(){
          << "c - Modificar precio de un producto"                   << endl
          << "d - Quitar un producto de la góndola"                  << endl
          << "e - Ver la cantidad de productos en oferta"            << endl
-         << "f - Agregar un producto al carrito"                    << endl
+         << "f - Ver opciones del chango"                           << endl
          << "g - Salir"                                             << endl
          << "-----------------------------------------------------" << endl
          << "Opción elegida: "                                      << endl;
@@ -139,6 +167,37 @@ void imprimirMenu(){
 
 void limpiarPantalla(){
     cout << "\033[H\033[2J" << flush;
+}
+
+float redondearA2Decimales(float numero){
+    return float(round(numero*100)/100);
+}
+
+
+//funciones "externas" (interacción del usuario implementadas con las funciones internas)
+
+producto* buscarProducto_tui(vector<producto>* gondola){
+    string busqueda = "";
+    producto resultado;
+    cout << "Ingrese el nombre o código del producto: ";
+    getline(cin,busqueda);
+
+    if(is_number(busqueda)){
+        try{
+            resultado = *buscarProducto(*gondola,stol(busqueda));
+        }
+        catch(string error){
+        cout << error;
+        }
+    }
+    else {
+        try{
+            resultado = *buscarProducto(*gondola,busqueda);
+        }
+        catch(string error){
+        cout << error;
+        }
+    }
 }
 
 void agregarProducto_tui(vector<producto>* gondola){
@@ -192,30 +251,6 @@ void agregarProducto_tui(vector<producto>* gondola){
         cout << "Error: Hubo un error al agregar el producto" << endl;
     }
 
-}
-
-producto* buscarProducto_tui(vector<producto>* gondola){
-    string busqueda = "";
-    producto resultado;
-    cout << "Ingrese el nombre o código del producto: ";
-    getline(cin,busqueda);
-
-    if(is_number(busqueda)){
-        try{
-            resultado = *buscarProducto(*gondola,stol(busqueda));
-        }
-        catch(string error){
-        cout << error;
-        }
-    }
-    else {
-        try{
-            resultado = *buscarProducto(*gondola,busqueda);
-        }
-        catch(string error){
-        cout << error;
-        }
-    }
 }
 
 int mostrarProducto_tui(vector<producto>* gondola){
@@ -283,10 +318,95 @@ void contarOfertas_tui(vector<producto> gondola) {
     cout << "actualmente hay " << cantidadDeProductosEnOferta(gondola) << " productos en oferta" << endl;
 }
 
+
+void agregarProductoAChango_tui(vector<producto>* gondola, vector<producto>* carrito){
+    producto resultado;
+    char eleccion = 'N';
+    
+    try{
+        resultado = *buscarProducto_tui(gondola);
+        carrito -> push_back(resultado);
+        cout << "producto agregado con éxito" << endl;
+    }
+    catch(string error){
+        cout << error << endl << "desea intentar nuevamente? (s/N): ";
+        cin >> eleccion;
+
+        if (eleccion == 'S' || eleccion == 's') {
+            limpiarPantalla();
+            agregarProductoAChango_tui(gondola,carrito);
+        }
+    }
+}
+
+void mostrarChango_tui(vector<producto> carrito){
+
+    cout
+            << "-----------------------------------------------------" << endl
+            << "Carrito:"
+            << "-----------------------------------------------------" << endl;
+
+    if (carrito.size() > 0){
+        for( producto producto : carrito){
+            cout
+            << producto.nombre << " - $" << redondearA2Decimales(producto.precio);
+        }
+        float total = calcularTotalCarrito(carrito), descuento = calcularAhorro(carrito, total), ahorro = total - descuento;
+        cout
+            << "-----------------------------------------------------" << endl
+            << "Total: $" << redondearA2Decimales(total)               << endl
+            << "Descuento: -$" << redondearA2Decimales(descuento)      << endl
+            << "Total con descuentos: $"  << redondearA2Decimales(ahorro) << endl
+            << "-----------------------------------------------------" << endl;            
+    }
+    else {
+        cout << "El chango está vacio, agregue algunos productos." << endl
+             << "-----------------------------------------------------" << endl;
+
+    }
+
+}
+
+void chango_tui(vector<producto>gondola, vector<producto>carrito){
+    bool volver = false;
+    char opcion = ' ';
+    limpiarPantalla();
+    do{
+        cout
+            << "-----------------------------------------------------" << endl
+            << "Opciones del changuito"                                << endl
+            << "-----------------------------------------------------" << endl
+            << "a - Agregar un producto"                               << endl
+            << "b - Ver total"                                         << endl
+            << "c - volver al menú anterior"                           << endl
+            << "-----------------------------------------------------" << endl
+            << "Opción elegida: "                                      << endl;
+        cin >> opcion;
+
+        switch (opcion) {
+            case 'a':
+                agregarProductoAChango_tui(&gondola,&carrito);
+                break;
+            case 'b':
+                mostrarChango_tui(carrito);
+                break;
+            case 'c':
+                volver = true;
+                break;
+            default:
+            limpiarPantalla();
+            cout << "Opción inválida" << endl;
+            break;
+        }
+    }
+    while (!volver);
+
+}
+
 int main() {
 
     vector<producto> gondola = {};
-    vector<producto> carrito = {};
+    vector<producto> chango = {};
     char opcion = ' ';
     bool salir = false;
     
@@ -312,6 +432,7 @@ int main() {
                 contarOfertas_tui(gondola);
                 break;
             case 'f':
+                chango_tui(gondola,chango);
                 break;
             case 'g':
                 cout << "Gracias! Vuelva pronto!" << endl;
