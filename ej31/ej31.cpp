@@ -13,45 +13,52 @@ struct alumno {
     int padron;
 };
 
-auto procesarNotas(vector<alumno> alumnos){
-    
-    //asumo un rango de notas "standard" como los de acá (nota entre 1 y 10, numero entero)
-    
-    int notasProcesadas[2][10] = {
-        {1,2,3,4,5,6,7,8,9,10},
-        {0,0,0,0,0,0,0,0,0,0}
-    };
+int procesarNotas(vector<alumno> alumnos,int notas[]){
+    //precondicion: notas debe estar inicializado con ceros
 
     //para cada alumno en el vector, lee su nota e incrementa el contador correspondiente, ya que indice = nota - 1 (ej: nota 10 -> columna 9)
     for (alumno alumno : alumnos){
-        notasProcesadas[1][alumno.nota - 1] ++;
+        notas[alumno.nota - 1] ++;
     }
 
-    return notasProcesadas;
+    return 0;
 }
 
-auto porcentajeNotas (int notas[2][10]){
+void porcentajeNotas (int* notas, float*porcentajes, int largoArray){
     int totalNotas = 0;
-    float porcentajes[10] = { 0 };
 
     //contamos el total de notas
-    for (int cantidad : notas[1]){
-        totalNotas += cantidad;
+    for (int i = 0; i > largoArray; i++){
+        totalNotas += notas[i];
     }
 
     //aplicamos regla de 3 para calcular el porcentaje y lo almacenamos en su columna correspondiente
-    for (int i = 0; i < 10; i++){
-        porcentajes[i] = float(notas[1][i] * 100)/totalNotas;
+    for (int i = 0; i < largoArray; i++){
+        porcentajes[i] = float(notas[i] * 100)/totalNotas;
     }
-
-    return porcentajes;
 }
 
 
 
 int main() {
+    const int cantidadNotas = 10; //asumo un rango de notas "standard" como los de acá (nota entre 1 y 10, numero entero)
+    vector<alumno> alumnos = {};
 
-    //código
+    int notas[cantidadNotas] = {0};
+    float porcentajes[cantidadNotas] = {0};
+
+    procesarNotas(alumnos, notas);
+    porcentajeNotas(notas, porcentajes, cantidadNotas);
+
+    cout << alumnos.size() << " alumnos rindieron el examen, de los cuales:" << endl;
+
+    for (int i = 0; i < cantidadNotas; i++){
+        cout << "El " << porcentajes[i] << "% se sacó un " << i+1 << endl;
+    }
+
+
+
+    
 
     return 0;
 }
