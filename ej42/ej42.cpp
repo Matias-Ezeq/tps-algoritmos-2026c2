@@ -162,12 +162,26 @@ void imprimirMenu(){
          << "f - Ver opciones del chango"                           << endl
          << "g - Salir"                                             << endl
          << "-----------------------------------------------------" << endl
-         << "Opción elegida: "                                      << endl;
+         << "Opción elegida: "                                      ;
 }
 
-void limpiarPantalla(){
-    cout << "\033[H\033[2J" << flush;
+// Source - https://stackoverflow.com/a/52895729
+// Posted by Joma, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-09-09, License - CC BY-SA 4.0
+
+void limpiarPantalla()
+{
+#if defined _WIN32
+    system("cls");
+    //clrscr(); // including header file : conio.h
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+    system("clear");
+    //std::cout<< u8"\033[2J\033[1;1H"; //Using ANSI Escape Sequences 
+#elif defined (__APPLE__)
+    system("clear");
+#endif
 }
+
 
 float redondearA2Decimales(float numero){
     return float(round(numero*100)/100);
@@ -178,24 +192,29 @@ float redondearA2Decimales(float numero){
 
 producto* buscarProducto_tui(vector<producto>* gondola){
     string busqueda = "";
-    producto resultado;
+    producto* resultado = nullptr;
+
+    limpiarPantalla();
+
     cout << "Ingrese el nombre o código del producto: ";
-    getline(cin,busqueda);
+    cin >> busqueda;
 
     if(is_number(busqueda)){
         try{
-            resultado = *buscarProducto(*gondola,stol(busqueda));
+            resultado = buscarProducto(*gondola,stol(busqueda));
+            return resultado;
         }
         catch(string error){
-        cout << error;
+            throw error;
         }
     }
     else {
         try{
-            resultado = *buscarProducto(*gondola,busqueda);
+            resultado = buscarProducto(*gondola,busqueda);
+            return resultado;
         }
         catch(string error){
-        cout << error;
+            throw error;
         }
     }
 }
@@ -207,8 +226,10 @@ void agregarProducto_tui(vector<producto>* gondola){
     string nombreNuevoProducto = "";
     long codigoNuevoProducto = 0;
 
-    cout << "Ingrese nombre del producto (ej: fideos marolio): ";
-    getline(cin,nombreNuevoProducto); 
+    limpiarPantalla();
+
+    cout << "Ingrese nombre del producto (ej: fideos): ";
+    cin >> nombreNuevoProducto;
     try {
             buscarProducto(*gondola, nombreNuevoProducto); //si tira excepcion ta bien porque no existe y se saltea todo el resto
             existe = true;
@@ -340,7 +361,7 @@ void agregarProductoAChango_tui(vector<producto>* gondola, vector<producto>* car
 }
 
 void mostrarChango_tui(vector<producto> carrito){
-
+    limpiarPantalla();
     cout
             << "-----------------------------------------------------" << endl
             << "Carrito:"
